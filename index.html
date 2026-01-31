@@ -428,7 +428,7 @@
 
         function showMessage(elementId, message, type) {
             const el = document.getElementById(elementId);
-            el.innerHTML = `<div class="message ${type}">${message}</div>`;
+            el.innerHTML = `<div class=\"message ${type}\">${message}</div>`;
             setTimeout(() => el.innerHTML = '', 6000);
         }
 
@@ -436,7 +436,7 @@
             const btn = document.getElementById(buttonId);
             if (loading) {
                 btn.disabled = true;
-                btn.innerHTML = `<div class="loading"></div>Loading...`;
+                btn.innerHTML = `<div class=\"loading\"></div>Loading...`;
                 btn.setAttribute('aria-busy', 'true');
             } else {
                 btn.disabled = false;
@@ -501,9 +501,9 @@
                     div.innerHTML = `
                         <h3>${repo.name}</h3>
                         <p>${repo.description || 'No description provided'}</p>
-                        <button class="btn" onclick="loadPosts('${repo.name}')" aria-label="Load posts for ${repo.name}">Load Posts</button>
-                        <button class="btn" onclick="createPost('${repo.name}')" aria-label="Create post in ${repo.name}">Create Post</button>
-                        <div id="posts-${repo.name}" role="region" aria-label="Posts in ${repo.name}"></div>
+                        <button class=\"btn\" onclick=\"loadPosts('${repo.name}')\" aria-label=\"Load posts for ${repo.name}\">Load Posts</button>
+                        <button class=\"btn\" onclick=\"createPost('${repo.name}')\" aria-label=\"Create post in ${repo.name}\">Create Post</button>
+                        <div id=\"posts-${repo.name}\" role=\"region\" aria-label=\"Posts in ${repo.name}\"></div>
                     `;
                     communitiesDiv.appendChild(div);
                 });
@@ -535,7 +535,7 @@
 
         async function loadPosts(repo) {
             const postsDiv = document.getElementById(`posts-${repo}`);
-            postsDiv.innerHTML = `<div class="loading" aria-hidden="true"></div>Loading posts...`;
+            postsDiv.innerHTML = `<div class=\"loading\" aria-hidden=\"true\"></div>Loading posts...`;
             try {
                 const issues = await apiCall(`${apiBase}/repos/${owner}/${repo}/issues?state=open&sort=updated&direction=desc`);
                 postsDiv.innerHTML = '';
@@ -549,17 +549,17 @@
                     div.innerHTML = `
                         <h4>${issue.title}</h4>
                         <p>${issue.body ? issue.body.substring(0, 200) + (issue.body.length > 200 ? '...' : '') : 'No content'}</p>
-                        <p class="post-meta">By ${issue.user.login} on ${new Date(issue.created_at).toLocaleDateString()}</p>
-                        <button class="btn" onclick="loadComments('${repo}', ${issue.number})" aria-label="Load comments for post ${issue.title}">Load Comments</button>
-                        <button class="btn" onclick="vote('${repo}', ${issue.number}, '+1')" aria-label="Vote up post ${issue.title}">👍</button>
-                        <button class="btn" onclick="vote('${repo}', ${issue.number}, '-1')" aria-label="Vote down post ${issue.title}">👎</button>
-                        <button class="btn" onclick="comment('${repo}', ${issue.number})" aria-label="Add comment to post ${issue.title}">Comment</button>
-                        <div id="comments-${repo}-${issue.number}" role="region" aria-label="Comments for post ${issue.title}"></div>
+                        <p class=\"post-meta\">By ${issue.user.login} on ${new Date(issue.created_at).toLocaleDateString()}</p>
+                        <button class=\"btn\" onclick=\"loadComments('${repo}', ${issue.number})\" aria-label=\"Load comments for post ${issue.title}\">Load Comments</button>
+                        <button class=\"btn\" onclick=\"vote('${repo}', ${issue.number}, '+1')\" aria-label=\"Vote up post ${issue.title}\">👍</button>
+                        <button class=\"btn\" onclick=\"vote('${repo}', ${issue.number}, '-1')\" aria-label=\"Vote down post ${issue.title}\">👎</button>
+                        <button class=\"btn\" onclick=\"comment('${repo}', ${issue.number})\" aria-label=\"Add comment to post ${issue.title}\">Comment</button>
+                        <div id=\"comments-${repo}-${issue.number}\" role=\"region\" aria-label=\"Comments for post ${issue.title}\"></div>
                     `;
                     postsDiv.appendChild(div);
                 });
             } catch (e) {
-                postsDiv.innerHTML = `<div class="message error">Error loading posts: ${e.message}</div>`;
+                postsDiv.innerHTML = `<div class=\"message error\">Error loading posts: ${e.message}</div>`;
             }
         }
 
@@ -581,7 +581,7 @@
 
         async function loadComments(repo, number) {
             const commentsDiv = document.getElementById(`comments-${repo}-${number}`);
-            commentsDiv.innerHTML = `<div class="loading" aria-hidden="true"></div>Loading comments...`;
+            commentsDiv.innerHTML = `<div class=\"loading\" aria-hidden=\"true\"></div>Loading comments...`;
             try {
                 const comments = await apiCall(`${apiBase}/repos/${owner}/${repo}/issues/${number}/comments`);
                 commentsDiv.innerHTML = '';
@@ -594,12 +594,12 @@
                     div.className = 'comment';
                     div.innerHTML = `
                         <p>${comment.body}</p>
-                        <p class="comment-meta">By ${comment.user.login} on ${new Date(comment.created_at).toLocaleDateString()}</p>
+                        <p class=\"comment-meta\">By ${comment.user.login} on ${new Date(comment.created_at).toLocaleDateString()}</p>
                     `;
                     commentsDiv.appendChild(div);
                 });
             } catch (e) {
-                commentsDiv.innerHTML = `<div class="message error">Error loading comments: ${e.message}</div>`;
+                commentsDiv.innerHTML = `<div class=\"message error\">Error loading comments: ${e.message}</div>`;
             }
         }
 
