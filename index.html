@@ -415,6 +415,9 @@
 
         async function apiCall(url, options = {}) {
             options.headers = { ...options.headers, ...getHeaders() };
+            if (options.body) {
+                options.headers['Content-Type'] = 'application/json';
+            }
             const response = await fetch(url, options);
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
